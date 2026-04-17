@@ -108,7 +108,13 @@ class DVrouter(Router):
         if time_ms - self.last_time >= self.heartbeat_time:
             self.last_time = time_ms
             # TODO
-            #   broadcast the distance vector of this router to neighbors
+        # broadcast the distance vector of this router to neighbors
+        if changed:
+            content = json.dumps(self.dv)
+            for p in self.links:
+                pkt = Packet(Packet.ROUTING, self.addr, None, content)
+                self.send(p, pkt)
+             
             pass
 
     def __repr__(self):
