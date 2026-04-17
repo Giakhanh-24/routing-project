@@ -94,9 +94,12 @@ class DVrouter(Router):
                 affected.append(dest)
         for dest in affected:
             self.dv[dest] = self.infinity
-            changed = True            
+            changed = True              
         #   update the forwarding table
-        
+        for dest in affected:
+            if dest in self.forwarding_table:
+                del self.forwarding_table[dest]
+        if endpoint in self.forwarding_table[endpoint]        
         #   broadcast the distance vector of this router to neighbors
         pass
 
