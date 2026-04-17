@@ -111,12 +111,17 @@ class DVrouter(Router):
 
     def handle_time(self, time_ms):
         """Handle current time."""
+        import json
+        from packet import Packet
         if time_ms - self.last_time >= self.heartbeat_time:
             self.last_time = time_ms
             # TODO
         # broadcast the distance vector of this router to neighbors
-       
-            pass
+            content = json.dumps(self.dv)
+            for p in self.links:
+                pkt = Packet(Packet.ROUTING, self.addr,None, content)
+                self.send(p, pkt)
+        pass
 
     def __repr__(self):
         """Representation for debugging in the network visualizer."""
