@@ -20,8 +20,13 @@ class DVrouter(Router):
         self.heartbeat_time = heartbeat_time
         self.last_time = 0
         # TODO
-        #   add your own class fields and initialization code here
-        pass
+    self.infinity = 16
+    self.links = {}
+    self.neighbor_ports = {}
+    self.dv = {self.addr: 0}
+    self.forwarding_table = {}
+    self.neighbor_dvs = {}
+    pass
 
     def handle_packet(self, port, packet):
         """Process incoming packet."""
