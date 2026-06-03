@@ -20,20 +20,19 @@ class LSrouter(Router):
     """
 
     def __init__(self, addr, heartbeat_time):
-        Router.__init__(self, addr)  # Initialize base class - DO NOT REMOVE
+        Router.__init__(self, addr)  
         self.heartbeat_time = heartbeat_time
         self.last_time = 0
 
-        # Local link-state sequence number (incremented on topology change).
         self.seq_num = 0
-        # Neighbor address -> link cost (this router's advertised link state).
+
         self.my_neighbors = {}
-        # Port -> neighbor address and neighbor -> port (cannot use self.links).
+        
         self.port_to_neighbor = {}
         self.neighbor_to_port = {}
-        # Remote routers: address -> (sequence number, neighbors dict).
+        
         self.link_states = {}
-        # Destination address -> egress port for traceroute forwarding.
+       
         self.forwarding_table = {}
 
     def _make_ls_payload(self):
@@ -89,12 +88,12 @@ class LSrouter(Router):
         for dest in dist:
             if dest == self.addr:
                 continue
-            # Walk predecessors until the hop after self.addr is found.
+            
             hop = dest
             while hop in prev and prev[hop] != self.addr:
                 hop = prev[hop]
             if hop not in prev or prev[hop] != self.addr:
-                continue  # Unreachable or no valid next hop
+                continue  
             port = self.neighbor_to_port.get(hop)
             if port is not None:
                 table[dest] = port
